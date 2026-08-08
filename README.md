@@ -1,78 +1,143 @@
-# TimeMachine.Agent
+# ⏱️ TimeMachine.Agent
 
-TimeMachine.Agent is a lightweight Windows activity tracker written in C# (.NET).
+> A lightweight Windows productivity tracker built with **C# / .NET 8**, **SQLite**, and **WinAPI**.
 
-The application monitors active windows, detects idle time, stores sessions in SQLite,
-and generates productivity analytics directly in the console.
+TimeMachine.Agent monitors active applications, detects idle time, stores activity sessions locally, and analyzes focus and distraction patterns.
+
+The project was built to explore Windows system APIs, local data persistence, REST API integration, and productivity analytics.
 
 ---
 
 ## 🚀 Features
 
-- Active window tracking (app name, PID, title, exe path)
-- Idle time detection (configurable threshold)
-- SQLite session storage
-- GitHub public events integration (via API)
-- Real-time session merging with grace period
-- Console productivity reports:
+- 🖥️ Tracks the currently active Windows application
+- ⌨️ Detects user idle time through WinAPI
+- 💾 Stores activity sessions locally in SQLite
+- 🧠 Detects deep-focus sessions and distractions
+- 🔄 Merges short application switches using a grace period
+- 📊 Generates productivity reports directly in the console
+- 🐙 Fetches public GitHub activity through the GitHub REST API
+
+### Available Reports
 
 | Key | Report |
-|-----|--------|
-| S   | General overview (active / idle / top apps) |
-| F   | Focus analysis (deep work sessions + focus score) |
-| P   | Pattern analysis (switch behavior + peak hour) |
-| D   | Distractions (short sessions + switch targets) |
-| G   | GitHub activity (today events) |
+| --- | --- |
+| `S` | General activity overview — active/idle time and top applications |
+| `F` | Focus analysis — deep-work sessions and focus score |
+| `P` | Pattern analysis — switching behavior and peak productivity |
+| `D` | Distraction analysis — short sessions and frequent switches |
+| `G` | GitHub activity — today's public events |
 
 ---
 
-## 🧠 Focus Analytics Logic
+## 🧠 Focus Analytics
 
-- Deep work threshold (default: 20 min)
-- Short distraction threshold (default: 90 sec)
-- App switching penalty
-- Focus score calculation (0–100%)
+TimeMachine.Agent uses configurable thresholds to classify activity:
 
----
+- **Deep work:** sessions longer than 20 minutes
+- **Short distraction:** sessions shorter than 90 seconds
+- **Idle detection:** configurable timeout
+- **Grace period:** prevents brief app switches from unnecessarily splitting sessions
+- **Focus score:** calculated from recorded activity patterns
 
-## 🛠 Tech Stack
-
-- C# (.NET 8)
-- Microsoft.Data.Sqlite
-- WinAPI (user32.dll)
-- GitHub REST API
-- Console-based architecture
+This allows raw window activity to be transformed into higher-level productivity metrics.
 
 ---
 
-## 📦 Database Structure
+## 🛠️ Tech Stack
+
+- **C#**
+- **.NET 8**
+- **Microsoft.Data.Sqlite**
+- **WinAPI (`user32.dll`)**
+- **GitHub REST API**
+- **SQLite**
+- **Git / GitHub**
+
+---
+
+## 🗄️ Data Storage
+
+Activity is stored locally in SQLite.
 
 ### `sessions`
-Stores application sessions:
 
-- start_ts
-- end_ts
-- duration_ms
-- app
-- pid
-- window_title
-- exe_path
-- is_idle
+Stores application activity:
+
+- `start_ts`
+- `end_ts`
+- `duration_ms`
+- `app`
+- `pid`
+- `window_title`
+- `exe_path`
+- `is_idle`
 
 ### `github_events`
-Stores pulled GitHub public activity:
 
-- gh_event_id
-- gh_type
-- repo
-- created_ts
-- payload_json
+Stores retrieved GitHub activity:
+
+- `gh_event_id`
+- `gh_type`
+- `repo`
+- `created_ts`
+- `payload_json`
 
 ---
 
-## ⚙ How to Run
+## ▶️ Getting Started
 
-1. Clone repository
-2. Open in Visual Studio
-3. Run project
-4. (Optional) Set GitHub token:
+### Requirements
+
+- Windows 10/11
+- .NET 8 SDK
+- Visual Studio 2022 or another .NET-compatible IDE
+
+### Run locally
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/DayDreamingg-g/TimeMachine.Agent.git
+```
+
+2. Open `TimeMachine.Agent.slnx`.
+3. Restore dependencies and build the project.
+4. Run `TimeMachine.Agent`.
+
+GitHub integration is optional and may require a GitHub token depending on API usage.
+
+---
+
+## 🎯 What I Learned
+
+This project gave me practical experience with:
+
+- interacting with native Windows APIs from C#
+- designing persistent local storage with SQLite
+- processing time-series activity data
+- consuming REST APIs
+- implementing configurable analytics logic
+- structuring a standalone .NET application
+
+---
+
+## 📌 Project Status
+
+The core tracking and analytics functionality is implemented.
+
+Future improvements may include:
+
+- graphical desktop interface
+- visual productivity charts
+- configuration UI
+- exportable reports
+- automated tests
+
+---
+
+## 👤 Author
+
+**Oleksandr — DayDreamingg-g**
+
+Computer Science student focused on software development and cybersecurity.
